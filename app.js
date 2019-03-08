@@ -44,14 +44,14 @@ const passportConfig = require('./config/passport');
  * Create Express server.
  */
 const app = express();
-
+app.set('view engine', 'pug');
 /**
  * Connect to MongoDB.
  */
 mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 mongoose.set('useNewUrlParser', true);
-mongoose.connect(process.env.MONGODB_URI);
+mongoose.connect('mongodb://codiecon:password20@cluster0-shard-00-00-yvdzn.mongodb.net:27017,cluster0-shard-00-01-yvdzn.mongodb.net:27017,cluster0-shard-00-02-yvdzn.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true');
 mongoose.connection.on('error', (err) => {
   console.error(err);
   console.log('%s MongoDB connection error. Please make sure MongoDB is running.', chalk.red('✗'));
@@ -126,6 +126,7 @@ app.use('/webfonts', express.static(path.join(__dirname, 'node_modules/@fortawes
 /**
  * Primary app routes.
  */
+
 app.get('/', homeController.index);
 app.get('/login', userController.getLogin);
 app.post('/login', userController.postLogin);
